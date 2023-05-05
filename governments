@@ -1,0 +1,415 @@
+
+Paradox Wikis
+Stellaris Wiki
+Open main menu
+Stellaris Wiki
+Search
+Stellaris Wiki
+Language
+Watch
+Edit
+Version
+
+Outliner top.png
+Please help with verifying or updating older sections of this article. At least some were last verified for version 3.0.
+
+This article is for the PC version of Stellaris only.
+The following guide contains information related to modding empire's government and things contained inside related folder.
+
+Governments	Edit
+Governments are automatically picked based on various factors for a flavor. They have few actual effects on gameplay. Vanilla uses civics, authorities and ethics to determine it. Governments are defined at "common/governments/xxx.txt".
+
+Data Structure	Edit
+Property	Description
+ruler_title
+ruler_title_female	Localisation keys to determine the ruler title, such as "President" or "King". If the female title is undefined, the title will never differ by gender.
+heir_title
+heir_title_female	Localisation keys to determine the heir title, such as "Prince". If the female title is undefined, the title will never differ by gender.
+use_regnal_names = <yes/no>	If yes, the auto-generated ruler names will use regnal last names if the namelist of this species defined any.
+dynastic_last_names = <yes/no>	If yes, the heirs will inherit the last word of the ruler's name for a last name. For example, a King named "Ohma Zi-O" may have an heir named "Grand Zi-O".
+should_force_rename - <yes/no>	Force the empire that reformed into this government to randomize its empire name. AI only.
+possible	A block of Conditions to determine if this government type can be applied to an empire. (Country scope)
+weight	If an empire is eligible to multiple government types, one with the highest weight wins. Common government forms like Military Dictatorship should have lower weight than specific government forms like Blood Court.
+leader_class = <governor/scientist/admiral/general>	If the first ruler of the empire is elected out, that ruler will become a leader of specified class, rather than just disappear. Electoral governments only.
+election_candidates
+modifier
+add = <int>
+Conditions (Leader scope)
+A section to specify who should and how likely they should participate the ruler election. Not required; if not specified, all leaders can participate. Electoral governments only.
+Vanilla governments usually give the current ruler 100 weight and give weight to certain leader classes depending on the government itself, like Militarist governments usually allow only Admirals and Generals and Materialist governments usually allow only Scientists.
+
+Empire Random Names	Edit
+All vanilla empire random names are directly linked to Government Types, meaning that new random names must be defined for the new government types, or the randomly generated AI empires using your new government will NOT receive a name and the game might crash.
+
+Empire random names are defined at "common/random_names/xxx.txt".
+
+Authorities	Edit
+An Authority is how the empire distribute the internal political powers. An empire can only have one Authority. Authorities are defined at "common/governments/authorities/xxx.txt".
+
+Data Structure	Edit
+Property	  Democratic-like	   Oligarchic-like	  Dictatorial-like	  Imperial-like	   Immortal Ruler Authorities
+playable	A block of Conditions executed under global scope to determine should this Authority appear in the GUI. Vanilla game uses this to hide DLC Authorities from being played by people who didn't buy relevant DLC. Since this doesn't affect the AI, it's better to use together with random_weight.
+possible	A block of Special Requirement Syntax that determines is this Authority compatible. Ethics, country types and species classes can be checked here. If evaluated false, this Authority will be grayed out from the empire creation menu and government reform window. Tooltips is generated only if this statement evaluated false.
+random_weight	Defines how likely this is to be picked randomly if it's valid.
+election_type	election_type = democratic
+Election candidates will include the current ruler and every faction leader and randomly generated fillers if necessary.
+
+election_type = oligarchic
+Election candidates will only include hired leaders.
+
+ 
+re_election_allowed = <yes/no>	Vanilla Democratic authority has yes for this field and all other authorities have this field undefined. Allows the current Ruler to run again and possibly be re-elected.	 
+has_heir = <yes/no>	 	has_heir = yes	 
+can_have_emergency_elections = <yes/no>
+emergency_election_cost = <int>	 	can_have_emergency_elections = yes
+This empire can initiate an emergency election at a cost of a number of   Influence equal to emergency_election_cost.
+
+ 
+max_election_candidates = <int>	Vanilla Democratic authority has this undefined, making it to be the fallback -1, which means no limit.	Vanilla authorities have 4 for this property, making there to be up to 4 candidates.	 
+election_term_years = <int>
+election_term_variance = <int>	Determines how many years between elections. Actual election term is election_term_years +/- election_term_variance.	 
+uses_mandates = <yes/no>	Default no.
+If an authority has election_type = democratic but doesn't use mandates, this authority doesn't work properly.
+
+See Mandates and Mandate modding for details.
+
+ 
+has_agendas = <yes/no>	 	Default no.
+If this is toggled yes while the ruler is some sort of immortal, the empire will then have a permanent Agenda that can't be changed for the rest of the game.
+
+See Agendas and Agenda modding for details.
+
+tags = { xxx yyy zzz }	A set of localisation keys to briefingly describe the mechanics and effects of this authority other than modifiers.
+country_modifier	A block of Modifiers to be applied to the Empire.
+traits = { trait_xxx trait_yyy }	A list of species trait keys to be added to the primary species of this empire. In the empire creation menu, these traits can't be removed, but more can be added if there is enough trait points and trait picks. Government reforming doesn't add or remove these traits.
+can_reform = <yes/no>	Default yes. If no, empires can't reform into/out of this authority.
+has_factions = <yes/no>	Default yes. If no, this Empire can't have factions. However, vanilla factions also exclude the ethic   Gestalt Consciousness, making it unclear will this property do what it says.
+valid_for_released_vassal = <yes/no>	Default yes. If no, a released vessal will never pick this Authority.
+localization_postfix	If specified as "_popopopo", a localisation key called "locacacaca" will be translated into "locacacaca_popopopo".
+l_english:
+ locacacaca:0 "How can you be sure that you are not just an advanced chatbot?"
+ locacacaca_popopopo:0 "I AM ADVANCED CHATBOT YOU LOSE"
+If there is somewhere that should display the former, it will now display the later.
+
+Other effects an Authority might also have, such as immortal rulers, are heavily integrated into other vanilla files as well as events. Use has_authority = auth_xxx to check the Authority of an Empire.
+
+Civics and Origins	Edit
+Civics are additional bonuses to the government of variable effects, some can even affect the playstyle. An empire can have any number of Civics (up to 3 if vanilla).
+
+Origins are Civics with is_origin = yes statement. Since an empire can only have one origin and it can't be changed mid-game, some of the fields for civics are irrelevant to Origins. Also, they have additional fields.
+
+They are defined at "common/governments/civics/xxx.txt".
+
+Data Structure	Edit
+Property	Civics	Origins
+is_origin = <yes/no>	 	For obvious reason, this have to be set as is_origin = yes.
+playable	A block of Conditions executed under global scope to determine should this Civic or Origin appear in the empire creator and government reforming view. Vanilla uses this to hide DLC contents from being played by people who didn't buy relevant DLC. Since this doesn't affect the AI, it's better to use together with random_weight.
+icon = <path of dds file>	Specifies an icon for this. Default icon path is gfx/interface/icons/governments/civics/xxx.dds.	Vanilla Origins always have this specified.
+picture = <GFX key>	 	Specifies a picture for this Origin that is shown in empire creation menu.
+starting_colony = <planet class key>	Changes the empire's starting colony planet class regardless of the player's choice. This statement doesn't affect climate preference trait.	Origins have higher priority than civics.
+habitability_preference = <planet class key>	Changes the empire's primary species' climate preference trait.
+potential	A block of Special Requirement Syntax that determines is this Civic compatible. Incomptible Civics have no effect. If evaluated false, this Civic is hidden from the empire creation menu and government reform window, and if this Civic is already picked, it's rendered invalid without any tooltip. Vanilla use this to hide NPC-only civics and irrelevant civics for/from   Hive Mind,   Machine Intelligence, and   Corporate authorities.	Origins that don't meet the potential requirements will be hidden from the Origin selection view, and if already chosen, the Origin selection will be set to the default origin Prosperous Unification. This field has no effect after the start of the game.
+possible	A block of Special Requirement Syntax that determines is this Civic compatible. Incomptible Civics have no effect. If evaluated false, this Civic is grayed out from the empire creation menu and government reform window. This section will also generate a tooltip to tell the player what's the requirement of this Civic in empire creation menu and government reform window.	Origins that don't meet the possible requirements will still be visible and chosen but such empire design can't be saved. This field has no effect after the start of the game.
+pickable_at_start = <yes/no>	Whether this civic can be selected when you are creating a new empire. If not, it can only be picked by government reforming.	 
+modification = <yes/no>	Default yes. If no, an empire can't add or remove this Civic after the start of the game. Used for playstyle restrictive civics like   Fanatic Purifiers.
+random_weight	Defines how likely this is to be picked randomly if it's valid. Civics of stricter requirements tend to have higher random weight. If without this statement, a Civic or Origin will never be randomly selected.	An Origin of random weight 0 can sometimes still be selected by the AI. A more safe way is to remove the statement entirely.
+modifier	A block of Modifiers to be applied to the Empire. If this Civic is considered incompatible, the Modifiers will be ignored.	A block of Modifiers to be applied to the Empire. These will always apply regardless of the Origin requirements.
+description = <localisation key>	A localisation key for effects description. This will be displayed before the modifier tooltips.
+traits = { trait = trait_xxx trait = trait_yyy }	A list of species trait keys to be added to the primary species of this empire. In the empire creation menu, these traits can't be removed, but more can be added if there is enough trait points and trait picks. Government reforming doesn't add or remove these traits.
+has_secondary_species	This Civic or Origin requires a secondary species. It's unclear what if more than one Civics that require a secondary species is selected at the same time. An Origin with a secondary species will override the secondary species for a Civic.
+title
+A localisation key for the title of the secondary species.   Syncretic Evolution calls it "Syncretic Species".
+traits = { trait = trait_xxx trait = trait_yyy }
+A list of species trait keys to be added to the secondary species. In the empire creation menu, these traits can't be removed, but more can be added if there is enough trait points and trait picks.
+can_build_ruler_ship	Default no. If set to yes, this empire can build old-school oversized ships for each ruler. Vanilla unused.	 
+cost	How many civic points this will cost. Defaults to 1. Must be a positive integer.
+swap_type	An entry that swaps civic name, flavor text and effect tooltip under certain condition.   Devouring Swarm uses this to swap into Terravore. Unlike Traditions, the primary modifier block is NOT overwritten and there is NOT any local modifier block of swaps.
+name = <localistion key>
+Changes the name and flavor text of this civic.
+description = <localisation key>
+Changes the effect tooltip of this civic.
+trigger
+A block of Conditions to check if this Civic swap should apply. Vanilla use "local_human_species_class = LITHOID" to swap Devouring Swarm for Lithoids. (Global scope)
+advanced_start	 	Default no. If set to no, the empire can't have advanced starts.
+preferred_planet_class_neighbor	Default yes. If set to no, the guaranteed habitable worlds will not be guaranteed to match the empire's climate preference.
+non_colonizable_planet_class_neighbor	Default no. If set to yes, the empire can't have guaranteed habitable worlds regardless of the galaxy settings.
+initializers = { xxx yyy zzz }	A list of keys of solar_system_initializer. The solar system initializer the player picked for this empire in the empire creation menu will be ignored. If specified, the empire won't have guaranteed habitable worlds anyway unless the initializer creates some based on the galaxy settings.
+flags = { xxx yyy zzz }	This empire will have these country flags set at the start of the game.
+Implementions of other effects a Civic might also have, such as diplomatic restrictions, are integrated into other vanilla game files. Use has_valid_civic to check Civics.
+
+Most of the other effects an Origin might also have (for example, starting conditions), are implemented through Events. Use has_origin to check Origins.
+
+Examples	Edit
+Civics	Edit
+Fanatic Purifiers
+civic_fanatic_purifiers = {
+	modification = no
+	playable = { host_has_dlc = "Utopia" }
+	potential = {
+		ethics = { NOT = { value = ethic_gestalt_consciousness } }
+		authority = { NOT = { value = auth_corporate } }
+	}
+	possible = {
+		ethics = {
+			value = ethic_fanatic_xenophobe
+			OR = {
+				value = ethic_militarist
+				value = ethic_spiritualist
+			}
+		}
+		civics = {
+			NOR = {
+				value = civic_barbaric_despoilers
+			}
+		}
+		origin = {
+			NOR = {
+				value = origin_syncretic_evolution
+				value = origin_common_ground
+				value = origin_hegemon
+			}
+		}
+	}
+	random_weight = {
+		base = 1000
+		modifier = {
+			factor = 0
+			NOT = { host_has_dlc = "Utopia" }
+		}
+	}
+
+	description = "civic_tooltip_fanatic_purifiers_effects"
+	modifier = {
+		ship_fire_rate_mult = 0.33
+		army_damage_mult = 0.33
+		starbase_shipyard_build_cost_mult = -0.15
+		country_naval_cap_mult = 0.33
+	}
+}
+Driven Assimilator
+civic_machine_assimilator = {
+	potential = { authority = { value = auth_machine_intelligence } }
+	possible = {
+		civics = {
+			NOR = {
+				value = civic_machine_servitor
+				value = civic_machine_terminator
+			}
+		}
+	}
+	modification = no
+	random_weight = {
+		base = 5
+		modifier = {
+			factor = 0
+			NOT = { host_has_dlc = "Synthetic Dawn Story Pack" }
+		}
+		modifier = {
+			# civic has no effect after galaxy generation, disable for random generation
+			factor = 0
+			has_global_flag = game_started
+		}
+	}
+	description = civic_tooltip_machine_assimilator_effects
+	has_secondary_species = {	# see game_start.11
+		title = civic_machine_assimilator_secondary_species
+		traits = {
+			trait = trait_cybernetic
+		}
+	}
+}
+Devouring Swarm
+civic_hive_devouring_swarm = {
+	modification = no
+	potential = {
+		authority = { value = auth_hive_mind }
+	}
+	possible = {
+		origin = {
+			NOR = {
+				value = origin_common_ground
+				value = origin_hegemon
+			}
+		}
+	}
+	random_weight = { base = 5 }
+
+	description = "civic_tooltip_devouring_swarm_effects"
+	modifier = {
+		country_starbase_influence_cost_mult = -0.5
+		ship_hull_mult = 0.25
+		ship_hull_regen_add_perc = 0.5
+		ship_armor_regen_add_perc = 0.5
+		army_damage_mult = 0.40
+		category_biology_research_speed_mult = 0.20
+		starbase_shipyard_build_cost_mult = -0.25
+		country_naval_cap_mult = 0.33
+	}
+
+	swap_type = {
+		name = civic_hive_devouring_swarm_lithoid
+		description = "civic_tooltip_devouring_swarm_lithoid_effects"
+
+		trigger = {
+			local_human_species_class = LITHOID
+		}
+	}
+}
+Origins	Edit
+Syncretic Evolution
+origin_syncretic_evolution = {
+	is_origin = yes
+	icon = "gfx/interface/icons/origins/origins_syncretic_evolution.dds"
+	picture = GFX_origin_syncretic_evolution
+
+	playable = {
+		host_has_dlc = "Utopia"
+	}
+
+	possible = {
+		ethics = { NOT = { value = ethic_gestalt_consciousness } }
+		civics = { NOT = { value = civic_fanatic_purifiers } }
+	}
+
+	description = civic_tooltip_syncretic_evolution_effects
+
+	has_secondary_species = {	# see game_start.11
+		title = civic_syncretic_evolution_secondary_species
+		traits = {
+			trait = trait_syncretic_proles
+		}
+	}
+
+	advanced_start = yes
+
+	random_weight = {
+		base = 10
+	}
+}
+Life Seeded
+origin_life_seeded = {
+	is_origin = yes
+	icon = "gfx/interface/icons/origins/origins_life_seeded.dds"
+	picture = GFX_origin_life_seeded
+
+	starting_colony = pc_gaia
+	habitability_preference = pc_gaia
+	preferred_planet_class_neighbor = no
+
+	playable = {
+		host_has_dlc = "Apocalypse"
+	}
+
+	possible = {
+		authority = { NOT = { value = auth_machine_intelligence } }
+	}
+
+	description = "civic_tooltip_life_seeded_effects"
+
+	random_weight = {
+		base = 5
+	}
+}
+Special Requirement Syntax	Edit
+The Civics use special requirement syntax and they don't accept regular Conditions. If it was implemented the other way, since incompatible Civics have no effect and a Civic can turn invalid literally anytime, it would be too performance intensive to check all empires for all civics everyday.
+
+All they can check are civics, ethics, authorities, origins, country types and species archetypes. A single row of statement consist of "value = " and the relevant object key. Logical operators, namely NOT, AND, OR, and NOR, can be used to group one or more statements of the same category together, with an optional "text" entry which replaces the auto-generated tooltip for the entire logical block, but they cannot nest with each other and they cannot cross the category.
+
+This is an example of this special syntax.
+
+possible = {
+	authority = {
+		OR = {
+			# text specified here replaces auto-generated tooltips for this block
+			text = civic_tooltip_dem_oli_dic
+			value = auth_democratic
+			value = auth_oligarchic
+			value = auth_dictatorial
+		}
+	}
+	ethics = {
+		value = ethic_fanatic_pacifist
+		NOR = {
+			text = civic_tooltip_not_authoritarian
+			value = ethic_authoritarian
+			value = ethic_fanatic_authoritarian
+		}
+	}
+	origin = {
+		NOR = {
+			value = origin_common_ground
+			value = origin_hegemon
+		}
+	}
+	species_archetype = {
+		# Only species archetypes can be specified here
+		value = LITHOID
+	}
+}
+Nested logic blocks don't work.
+
+ethics = {
+	OR = {
+		AND = {
+			value = ethic_fanatic_authoritarian
+			value = ethic_militarist
+		}
+		AND = {
+			value = ethic_authoritarian
+			value = ethic_fanatic_militarist
+		}
+	}
+}
+Cross-category logic blocks don't work either.
+
+OR = {
+	ethics = {
+		value = ethic_materialist
+	}
+	authority = {
+		value = auth_imperial
+	}
+}
+
+
+Modding
+Empire	Empire • Ethics • Governments • Civics • Origins • Mandates • Agendas • Traditions • Ascension perks • Edicts • Policies • Relics • Technologies • Custom empires
+Pops	Jobs • Factions
+Leaders	Leaders • Leader traits
+Species	Species • Species traits
+Planets	Planets • Planetary feature • Orbital deposit • Buildings • Districts • Planetary decisions
+Systems	Systems • Starbases • Megastructures • Bypasses • Map
+Fleets	Fleets • Ships • Components
+Land Warfare	Armies • Bombardment stance
+Diplomacy	Diplomacy • Federations • Galactic community • Opinion modifiers • Casus Belli • War goals
+Events	Events • Anomalies • Special projects • Archaeological sites
+Gameplay	Gameplay • Defines • Resources • Economy • Game start
+Dynamic modding	Dynamic modding • Effects • Conditions • Scopes • Modifiers • Variables • AI
+Media/localisation	Maya exporter • Graphics • Portraits • Flags • Event pictures • Interface • Icons • Music • Localisation
+Other	Console commands • Save-game editing • Steam Workshop • Modding tutorial
+Last edited on 5 April 2023, at 05:37
+Stellaris Wiki
+Content is available under Attribution-ShareAlike 3.0 unless otherwise noted.
+Desktop
+
+GAMES
+Discover
+Our Brands
+Browse
+Play on Paradox technology
+COMMUNITY
+Paradox Forums
+Paradox Wikis
+Support
+ABOUT
+News
+About us
+Careers
+Join our playtests
+Media contact
+SOCIAL MEDIA
+Terms & Policies
+Legal Information
+EU Online Dispute Resolution
+Frequently Asked Questions
+Paradox Interactive corporate website
