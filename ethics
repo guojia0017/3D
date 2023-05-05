@@ -1,0 +1,163 @@
+
+Paradox Wikis
+Stellaris Wiki
+Open main menu
+Stellaris Wiki
+Search
+Stellaris Wiki
+Language
+Watch
+Edit
+Version
+
+Outliner top.png
+Please help with verifying or updating older sections of this article. At least some were last verified for version 3.0.
+
+This article is for the PC version of Stellaris only.
+This page is about how to modify existing or add new Ethics to the game.
+
+Data Structure	Edit
+Ethics are defined at "common/ethics/xxx.txt".
+
+Ethics	Edit
+playable - A block of Modifiers that determines should this ethic appear in the empire creation view.   Gestalt Consciousness is hidden this way.
+cost = <int> - Number of ethic points this ethic cost.
+category = <ethic category key> - Category of this ethic.
+category_value = <int> - Index of this ethic under its category.
+If there is an ethic axis called "A - B", so we have FA, A, B, and FB and their "category_value" will be: 0, 1, 3, 4.
+Vanillas:
+    : 0, 1, 3, 4
+    : 0, 1, 3, 4
+    : 0, 1, 3, 4
+    : 0, 1, 3, 4
+ : 0 (not 2)
+use_for_pops = <yes/no> - Default yes. Should be no if fanatic or gestalt.
+regular_variant = <ethic key> - Fanatic ethics only. Designates the regular variant of this fanatic ethic.
+fanatic_variant = <ethic key> - Regular ethics only. Designates the fanatic variant of this ethic.
+country_modifier - A block of Modifiers that applies to the empire with this ethic.
+tags - A list of localisation keys for a tooltip of ethic principles.
+random_weight - The higher the weight, the more likely the randomly generated AI will have this ethic. Random empires will choose ethics at very first.
+Vanilla fanatic ethics have 150 and regular ethics have 100, except    Militarist have 250/150 and    Pacifist have 33/66.
+  Gestalt Consciousness has 100 for each of the following DLC installed:   Utopia,   Synthetic Dawn
+pop_attraction_tag - An entry that adds tooltip in the faction view to show the player what factors are affecting ethics attraction. Multiple allowed, use_for_pops ethics only.
+desc = <localisation key> - The text.
+trigger - A block of Conditions to determine should this attraction tag appear. (Country scope)
+country_attraction - An entry that modifies the empire wide ethic attraction, use_for_pops ethics only.
+value = <number> - Default attraction. Vanilla always have 1.
+modifier - A block of Conditions with a factor = <float> entry. Multiple allowed. (Country scope)
+pop_attraction - An entry that modifies the ethic attraction for each pop, use_for_pops ethics only.
+value = <number> - Default attraction. Vanilla always have 1.
+modifier - A block of Conditions with a factor = <float> entry. Multiple allowed. (Pop scope)
+Ethic Categories	Edit
+There is only one entry that defines ethic categories. New ethic categories can be added to this.
+
+ethic_categories = {
+	col = {}
+
+	xen = {}
+
+	mil = {}
+
+	spi = {}
+
+	hive = {}
+}
+GUI Modding	Edit
+Empire creation view is "interface/customize_species_editor.gui". There is a window that contains all buttons for ethic options. New ethics can't be made visible without modding this file.
+
+		containerWindowType = {
+			name = "ethics"
+			size = { width = 230 height = 230 }
+			position = { x = 20 y = -25 }
+
+			instantTextBoxType = {
+				name = "ethic_points_left"
+				position = { x = -130 y = 95 }
+				font = "malgun_goth_24"
+				maxWidth = 310
+				maxHeight = 20
+				text = "POINTS_LEFT_ETHICS"
+				orientation = center_down
+				format = center
+				#alwaysTransparent = yes
+			}
+
+			### NON-FANATIC ETHICS ###
+
+			buttonType = {
+				name = "ethic_militarist"
+				spriteType = "GFX_ethics_militarist"
+				position = { x = 125 y = 125 }
+				clicksound = interface
+			}
+			
+			... (repeat once for each regular ethic)
+
+			### FANATIC ETHICS ###
+
+			buttonType = {
+				name = "ethic_fanatic_militarist"
+				spriteType = "GFX_ethics_fanatic_militarist"
+				position = { x = 125 y = 90 }
+				clicksound = interface
+			}
+			
+			... (repeat once for each fanatic ethic)
+
+			buttonType = {
+				name = "ethic_gestalt_consciousness"
+				spriteType = "GFX_ethics_gestalt_consciousness"
+				position = { x = 125 y = 170 }
+				clicksound = interface
+			}
+			
+			### SELECTED ETHICS ###
+
+			iconType = {
+				name = "ethic_col_selected"
+				spriteType = "GFX_ethic_selected"
+			}
+
+			... (repeat once for each ethic category)
+		}
+Modding
+Empire	Empire • Ethics • Governments • Civics • Origins • Mandates • Agendas • Traditions • Ascension perks • Edicts • Policies • Relics • Technologies • Custom empires
+Pops	Jobs • Factions
+Leaders	Leaders • Leader traits
+Species	Species • Species traits
+Planets	Planets • Planetary feature • Orbital deposit • Buildings • Districts • Planetary decisions
+Systems	Systems • Starbases • Megastructures • Bypasses • Map
+Fleets	Fleets • Ships • Components
+Land Warfare	Armies • Bombardment stance
+Diplomacy	Diplomacy • Federations • Galactic community • Opinion modifiers • Casus Belli • War goals
+Events	Events • Anomalies • Special projects • Archaeological sites
+Gameplay	Gameplay • Defines • Resources • Economy • Game start
+Dynamic modding	Dynamic modding • Effects • Conditions • Scopes • Modifiers • Variables • AI
+Media/localisation	Maya exporter • Graphics • Portraits • Flags • Event pictures • Interface • Icons • Music • Localisation
+Other	Console commands • Save-game editing • Steam Workshop • Modding tutorial
+Last edited on 18 July 2021, at 09:09
+Stellaris Wiki
+Content is available under Attribution-ShareAlike 3.0 unless otherwise noted.
+Desktop
+
+GAMES
+Discover
+Our Brands
+Browse
+Play on Paradox technology
+COMMUNITY
+Paradox Forums
+Paradox Wikis
+Support
+ABOUT
+News
+About us
+Careers
+Join our playtests
+Media contact
+SOCIAL MEDIA
+Terms & Policies
+Legal Information
+EU Online Dispute Resolution
+Frequently Asked Questions
+Paradox Interactive corporate website
