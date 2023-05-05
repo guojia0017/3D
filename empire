@@ -1,0 +1,389 @@
+
+Paradox Wikis
+Stellaris Wiki
+Open main menu
+Stellaris Wiki
+Search
+Stellaris Wiki
+Language
+Watch
+Edit
+Version
+
+Outliner top.png
+Please help with verifying or updating older sections of this article. At least some were last verified for version 2.0.
+
+This article is for the PC version of Stellaris only.
+This article is about creating mods adding custom (prescripted) empires. Please note the fact this guide is not describing the process of modding any graphic assets (alien portraits, flag symbols, starship models etc.), just txt instructions needed to create the custom empire using default assets of a game.
+
+Some parts of this guide describe fairly easy or even obvious thiings, there are however parts of empire modding much more complicated or containing unexpected nuances.
+
+Prescripted countries	Edit
+99_prescripted_countries.txt is a file contained in a folder Stellaris->prescripted_countries, which is the base file you need to modify in order to make your custom empire appear correctly in a Stellaris New Game empire selection screen. Modding that file is enough to add the most basic custom empire to the game.
+
+By default, 99_prescripted_countries.txt contains code for the game's default empires, beginning with United Nations of Earth. The order of empires coded in this file is also the order of those empires displaying on the New Game scrolled list of empires, so uppermost humans display first. In your mod you can either delete default prescripted countries and replace them with your own, or simply add your own to the bottom of the list so they will display after default ones.
+
+ tzynn = {
+	name = "tzynn"
+	adjective = "PRESCRIPTED_adjective_tzynn"
+	spawn_enabled = yes # yes / no / always
+	
+	ship_prefix = "PRESCRIPTED_ship_prefix_tzynn"
+	
+	species = {
+		class = "REP"
+		portrait = "rep9"
+		name = "PRESCRIPTED_species_name_tzynn"
+		plural = "PRESCRIPTED_species_plural_tzynn"
+		adjective = "PRESCRIPTED_species_adjective_tzynn"
+		name_list = "REP1"
+		trait = "trait_strong"
+		trait = "trait_resilient"
+		trait = "trait_talented"
+		trait = "trait_rapid_breeders"
+		trait = "trait_nonadaptive"
+	}
+	
+	room = "personality_slaving_despots_room"
+	
+	authority = "auth_imperial"
+	civics = { "civic_police_state" "civic_slaver_guilds" }
+	government = gov_star_empire
+
+	ethic = "ethic_authoritarian"
+	ethic = "ethic_fanatic_militarist"
+	
+	planet_name = "PRESCRIPTED_planet_name_tzynn"
+	planet_class = "pc_desert"
+	system_name = "PRESCRIPTED_system_name_tzynn"
+	
+	graphical_culture = "reptilian_01"
+	city_graphical_culture = "reptilian_01"
+	
+	empire_flag = {
+		icon= {
+			category = "pointy"
+			file = "flag_pointy_2.dds"
+		}
+		background= {
+			category = "backgrounds"
+			file = "v.dds"
+		}
+		colors={
+			"red"
+			"black"
+			"null"
+			"null"
+		}
+	}
+	
+	ruler = {
+		name = "PRESCRIPTED_ruler_name_tzynn"
+		gender = male
+		portrait = "rep9"
+		texture = 1
+		clothes = 4
+	}	
+ }
+Empire and species name	Edit
+PRESCRIPTED_species_name_xanid: "Xani"
+PRESCRIPTED_species_plural_xanid: "Xanis"
+PRESCRIPTED_species_adjective_xanid: "Xanid"
+PRESCRIPTED_adjective_xanid: "Xanid"
+PRESCRIPTED_planet_name_xanid: "Xanth"
+PRESCRIPTED_system_name_xanid: "Dir-Xan"
+PRESCRIPTED_ruler_name_xanid: "Zaox Huketkin"
+PRESCRIPTED_ruler_title_xanid: "Suzerain"
+Self-explanatory part. "humans1" in this case is the base code for the empire, it will be referenced in other files but won't display in game. Name = "humans1" means the full name of that empire displaying in the game - such as United Nations of Earth or Human Commonwealth - is coded in the localisation files this way. Species_name is the name a singular pop of those species will have, plural form is used in appropriate moments in game. The difference between species_adjective and adjective is, the first one applies to species and the second one to imperial adjectives. This shouldn't matter in most cases though.
+
+PRESCRIPTED_ship_prefix_xanid: "XAN"
+This is a ship prefix appearing before name of every single starship in the game. For example, if namelist contains starship name "Discovery" and you type "USS" as United States Ship in prefix, then the result in game will be USS Discovery. You can invent whatever abbreviation and prefix you want - for extra immersion check rules of real life ship prefixes here https://en.wikipedia.org/wiki/Ship_prefix
+
+These scripted names are localised in the prescripted_countries_names.yml
+
+Species class and portrait	Edit
+species_class = "REP"
+Here you put the phenotype of your species, one of the following: mammalian, reptilian, avian, molluscoid, arthropoid, fungoid, robotic and machine. You have to type the phenotype of your empires species portrait here, or portraits of your species may display wrongly. The code for species classes is: mammalians - MAM, reptilians - REP, avians - AVI, arthropoids - ART, molluscoids - MOL, fungoids - FUN, plants - PLANT, machine - MACHINE, robotic - ROBOT.
+
+portrait = "rep9"
+You put the codename of portrait here. For reference, code for all default Stellaris portraits is in file Stellaris->common->species_classes->00_species_classes.txt
+
+Traits	Edit
+trait = "trait_strong" trait = "trait_resilient" trait = "trait_talented" trait = "trait_rapid_breeders" trait = "trait_nonadaptive"
+
+Reference file for traits is in Stellaris->common->traits->00_species_traits.txt, here is everything you need to know while assigning traits to your custom race. You just need to paste here all traits you want your race to have. Remember about default trait limits and rules. It is impossible for species to have more than 4 positive and negative traits, some of traits exclude each other (quick learners-slow learners etc.) and traits need to fit under trait points limit. If you break one of those rules then empire may be bugged or not display. 00_species_traits.txt contains cost of each traits point cost and list of traits contradicting each other, so use it for reference.
+
+Government and ethics	Edit
+authority = "auth_imperial" civics = { "civic_police_state" "civic_slaver_guilds" } government = gov_star_empire
+
+ethic = "ethic_authoritarian" ethic = "ethic_fanatic_militarist"
+
+The names of government types and general gov references are in common->governments->00_governments.txt. Ethics are in common->ethics->00_ethics.txt Remember about default government-ethics restrictions: democracies are not allowed with authoritarian ethics, autocracies with egalitarian, oligarchies with fanatic egalitarianism or fanatic authoritarianism etc. If you make the inappropriate combination of gov type and ethics, then custom empire may not work.
+
+Starting solar system	Edit
+planet_name = "Earth"
+system_name = "Sol"
+planet_class = "pc_continental"
+initializer = "sol_system_initializer"
+       
+First two names are self-explanatory, here you input whatever names you want starting planet and system of your empire to have. As for the planet class, here you choose type (climate) of planet preferred by your species; code of allowed planet classes is pc_desert, pc_tropical, pc_continental, pc_ocean, pc_arctic, pc_tundra and pc_arid. As you probably care what climates your Xenomorph species want to inhabit, remember about the Habitability Wheel while assigning base planet class.
+
+Setting planet class is mandatory and lack of it breaks the country, planet and system names are mandatory unless you want them to be blank. Initializer is an optional and more complicated thing. "System initializer" is a custom-made solar system with each celestial body in it and distances between them separately designed and named. If you created such system initializer, put its code name here. If you aren't that kind of perfectionist, delete the entire "initializer" line of code - then your custom empire will spawn in entirely randomly generated system, except custom name of it, homeworld planet and its class.
+
+Graphic style of spaceship and city	Edit
+graphical_culture = "mammalian_01"
+city_graphical_culture = "mammalian_01"
+Each phenotype in Stellaris has different 3d models of ships and different 2d graphics of cities displayed on planetary view. The first line applies to ship 3d models, the second one is self-explanatory. You can freely mix phenotypes of your species portraits, starship graphics and city graphics, so don't worry about that. Code names of graphical cultures are simple: humanoid_01, plantoid_01, mammalian_01, reptilian_01, avian_01, molluscoid_01, fungoid_01, arthropoid_01.
+
+Modding empire flag	Edit
+In a new game screen, using graphical interface, editing flag of an empire is easy, but to code this flag in txt - using default Paradox flag symbols, patterns and colors - you need to know code names for all those elements. For reference, use this separate guide - it makes this task incomparably easier.
+
+Modding starting leader of an empire	Edit
+Remember, modding leader of an empire matters much more for autocracies and oligarchies than for democracies where he/she can change after 5 years anyway.
+
+       ruler = {
+name = "PRESCRIPTED_ruler_name_humans1" gender = female portrait = "human_female_05" texture = 0 hair = 1 clothes = 0
+
+       }
+Class should be left as "ruler" and experience as 1200, name is self-explanatory (if you don't type it here, it won't be imported from namelists - your starting ruler will display blank in game!), few other nuances are less obvious.
+
+"Texture" means color variations of aliens (they are in game to make alien leaders have more individual character), this line doesn't matter for humans at all. Portrait of a leader should be usually the same as species portrait - humans are exception here, as humans have different portraits for sex and skin color. Regarding skin color of human portraits, 01 is "eastern white" (?), 02 "asian", 03 "brown", 04 "western white" and 05 "black". Regarding clothes and hair, check this illustrated reference guide [LINK TO THE GUIDE]
+
+Custom start screen flag	Edit
+flags = { human_1 custom_start_screen }
+If you don't want your custom empire to have a custom introductory text, just delete this mysterious line. Then your mod empire will have auto-generated introduction similar to that of all normally generated species. If you do want a custom introduction, later part of this guide covers that issue in detail.
+
+Empire spawn enabled - how to make empires appear in random games as AI opponents	Edit
+spawn_enabled = no       # yes / no / always
+This may be one of the most confusing aspects of modding empires in Stellaris. Spawn_enabled is a setting that decides whether the empire you create will be available to appear in a random new game, controlled by AI, instead of usual randomized AI species. If you type "spawn_enabled = no", then your mod empire will be still possible for human player to chose, edit it and play it in the new game, but otherwise it will never appear randomly in galaxies under AI control (as an opponent to human player). Use this setting if you want your custom empires to be playable only for human, never possible to show up under AI control. If you type "spawn_enabled = yes", then the empire may (or may not) randomly spawn in the new game under AI control. If you type "spawn_enabled = always", then that empire is forced to appear in every random game as an AI nation instead of randomized race.
+
+The last option means, if you have created 1 mod empire, set "spawn_enabled = always", then start a new game and set 1 AI opponent, then this opponent will always be that custom empire - because mod empires with "spawn_enabled = always" setting always have priority over default randomly generated species. If you created 16 mod empires, set "spawn_enabled = always" for all of them and then launch a new game with 16 AI opponents, every single of those AI opponents will be one of these mod empires. However, if you created 16 mod empires with that setting and then launch a new game with less than 16 AI opponents, then only some of your mod empires will appear in that game - but again, every AI opponent will be one of them, as I said: custom empires with spawn_enabled = always setting always have a priority over randomized ones.
+
+WARNING - if human player on a new game screen chooses one of mod empires to play as, then this custom empire will not spawn in the game as AI opponent even with spawn_enabled = always, because it is already in game: human-controlled. Unless you change (edit) the name on the new game screen (then game thinks it is entirely different empire, and populates the galaxy with originally named one because of spawn_setting = always) - so don't change the name and everything will be fine.
+
+Implementing custom Start Screen introductory text and empire description	Edit
+In Stellaris, every single empire gets auto-generated introductory text when starting a new game, built from 'text pieces' based on ethics, government, planet class, FTL and few other "characteristic traits" of it. However, there is also an option of creating custom introductory text for a custom empire. If you want to do this, you will need to modify few separate files.
+
+Prescripted_countries.txt	Edit
+One of the lines in 00_prescripted_countries.txt is mysterious
+
+flags = { human_1 custom_start_screen }
+If you don't want your empire to have unique, custom introduction text, just delete it. Otherwise, leave it in place. Imperial "flag" (in this case human_1) is used to identify the particular empire, so it needs to be the same here and in the next file.
+
+Start_screen_messages.txt	Edit
+Go to Stellaris->common->start_screen_messages folder, here is the file 00_start_screen_messages.txt. On the bottom of this file there is code allowing custom introductory text to appear instead of a randomly generated one. In case of our example, United Nations of Earth, it is
+
+# United Nations of Earth
+part = {
+        location = 0
+        localization = "START_SCREEN_UNE"	
+        trigger = {
+               has_country_flag = human_1
+        }		
+}
+Just copy that code for your custom empire. Location should always be 0. Localization should be exactly the same code as in the localisation files, and has_country_flag has to point at the same "imperial flag" as in prescripted countries.txt
+
+has_country_flag = human_1
+                   human_1 custom_start_screen
+Localisation	Edit
+Then you just need to create localisation file which will contain introductory text for your empire. All localisation files need to be in YML format (in Stellaris->localisation you can see how do they look, you may copy one of them and remake it) and their names have to end in l_language (l_english, l_russian etc.) to work. For example, introductory text of United Nations of Earth look like this:
+
+START_SCREEN_UNE:0 "Much has happened since modern Humans first emerged in Africa (...)"
+Just use the same START_SCREEN_CUSTOMEMPIRENAME line here and in Start_screen_messages.txt file. Also, remember about two things. If you want your text to enter new paragraph, use \n\n as in
+
+civilizations took form.\n\nScientific progress has been swift
+And as for now, be careful not to create too long introductory text, as it will be cut if not fitting inside of the start screen window. Just make it not much longer than exemplary introduction of UNE.
+
+
+Each Stellaris empire also may have a description displaying on a new game screen when browsing through playable empires. In case of United Nations on Earth this description is in localisation->prescripted_l_english.yml:
+
+EMPIRE_DESIGN_humans1:0 "United Nations of Earth"
+EMPIRE_DESIGN_humans1_desc:0 "The myriad Human nations that constitute their interstellar government (...)"
+
+You can, of course, do the similar description for your custom empire. Remember about appropriate codename, paragraphs and length (although in case of descriptions, 'too long' ones will display under scrollbar).
+
+Custom AI personalities for AI-controlled custom empires	Edit
+If you want your custom empire to be used as an AI opponent, you would probably like it to behave in "appropriate way" - for example custom Zerg or Tyranid empire should be extremely aggressive and unwilling of any diplomacy. You can make this happen in two ways. First one, you simply create custom empire and hope it will get appropriate default AI personality assigned (in this case, Fanatical Purifiers or Hive Mind). Personalities of AI nations in Stellaris are assigned on the beginning of new game basing on certain combinations (and, to lesser extent, government or traits) of empires - you can check the weights in Stellaris->common->personalities->00_personalities.txt.
+
+However much more reliable way, and often the only one, is to make a new personality for your custom empire. This is much easier task than it sounds. 00_personalities.txt file contains notes which explain what each line of code in this file means, so you can easily create your own AI personality just by changing few words and tweaking few numbers. Example of such custom AI personality made for custom empire is
+
+xenomorph_hive = { 
+       type = purifier          #these words seems mysterious but they are all explained in original file
+       aggressiveness = 2.0
+       trade_willingness = 0.0
+       bravery = 1.0
+       military_spending = 1.2
+       colony_spending = 1.2	
+       alliance_acceptance = -1000
+       federation_acceptance = -1000
+       threat_modifier = 0
+       friction_modifier = 10
+       behaviour = {
+               conqueror = yes
+               subjugator = no
+               liberator = no
+               opportunist = yes
+               slaver = no
+               uplifter = no
+               purger = yes
+               dominator = yes
+               infiltrator = no
+               robot_exploiter = yes
+               robot_liberator = no
+               migrator = no
+        }
+        allow = {
+               has_country_flag = xenomorph
+        }
+        weight_modifier = {
+               weight = 1000			
+        }
+}
+This way, AI xenomorphs will always get the personality "Xenomorph Hive", making them unable of diplomacy, aggressive and murderous, and no other AI empire will ever get it. You can of course add the localisation of such custom personality too, so it will display when you encounter Xenomorphs in game - add something like that to your mod's localisation file:
+
+personality_xenomorph_hive:0 "Xenomorph Hive"
+personality_xenomorph_hive_desc:0 "Xenomorph Hive is a collective of terrifying predatory species. Diplomacy with them   is impossible, they wish to exterminate all other life they perceive as danger to them."
+Name lists	Edit
+"Name lists" are list of names used for starships, leaders, planets, stations and other features of empires. They are separate from localisation files, located in Stellaris->common->name_lists. In prescripted_countries.txt file, what name list is used by an empire is set by the line
+
+name_list = "Human"
+Where in this case "Human" is the name of a file Human.txt in name_lists folder. A single name list may be used by many empires (all default races but human use generic "phenotype-based" lists) but you probably want your empire to have unique names. Adding names to the namelists contains some not so obvious nuances, so they are listed here.
+
+General rules of adding names to namelists	Edit
+Do not use commas anywhere in namelist files, names are separated by space instead. If you want the name to consist of more than one word, for example Morning Star or al-Gezira, put them under quotation marks like this:
+
+constructor = {
+  Ziryab Zewail "al-Sufi" "ibn Ridwan" "Al-Zarkali" "al-Haytham" "al-Battani" "al Farabi"
+Be very careful about using quotation marks in namelist files, though - one unnecessary quotation here, or one one quotation left open, may break an entire namelist (make names display blank). Try also to avoid using "weird" unicode symbols, for example at the current moment the game does not handle many diacritics such as đ, Ă or Ư.
+
+Names of ships, stations and planets	Edit
+Most of this section is self-explanatory — use Human.txt namelist as a reference. Regarding starships: the 'generic' category means names put here may appear for any type of starship. Additionally/alternatively you can make separate name lists by ship type: scientist ships, destroyers, battleships, transport etc. If a list includes names under both the 'generic' tag and a more specific tag (e.g. 'cruiser'), ships of that type will pull their names from either collection of names.
+
+Similarly, you may make planet names apply for any type of planet (generic) or separate planet name lists for separate planet types. For example:
+
+pc_tropical = {
+names = {
+Amazonia Congo Ecuador Rain Storm Monsoon Bengal "New Africa" Kishkindha Zanzibar Kipling
+ }
+}
+Sequential	Edit
+Many fields allow a sequential_name. This should be a string. Numbers can be expressed in several formats using an escape sequence:
+
+Cardinal: $C$ will produce cardinal numbers: 1, 2, 3, 4...
+Ordinal: $ORD$ will produce ordinal numbers: 1st, 2nd, 3rd, 4th...
+Roman: $R$ will produce Roman numbers: I, II, III, IV...
+As of 3.6, this only works if you use it a localization file, instead of the common->name_lists file.
+
+Names of characters	Edit
+Example of character namelist:
+
+names7 = {
+          weight = 15
+          first_names_male = {
+          Aarav Vivaan Aditya Arjun Reyansh Arnav Krishna Ishaan Shaurya Atharv Advik Pranav 
+          Kayaan Darsh Veer Rahul Mahesh Shyam Raj Kumar Palash Rakesh Nishant Neeraj 
+           }
+          first_names_female = {
+           Saanvi Aanya Aadhya Aaradhya Ananya Pari Anika Navya Diya Avani Myra Ira Aahana         
+           Shanaya Kyra Siya Priyanka Divya Mahima Shivangi Juvina Anoushka Anushri Apoorva 
+                       }
+           second_names = {
+           Kumar Moorthi Shastri Prasad Acharya Swamy Pillai Gowda Nayak Desmukh Bhat 
+           Kulkarni Dodamani Patil Gupta Sharma Namboodiri Pannikar Potti Kutty Varma  
+                       }
+           regnal_first_names_male = {
+           Kayaan Darsh Veer Rahul Mahesh Shaurya Atharv Advik Pranav
+                       }
+           regnal_first_names_female = {
+           Saanvi Aanya Aadhya Aaradhya Ananya Priyanka Divya Mahima Shivangi
+                       }
+           regnal_second_names = {
+           Kumar Moorthi Shastri Prasad Acharya Patil Gupta Sharma Namboodiri Pannikar Potti 
+                       }
+           }
+Each custom empire may contain many character name lists such as this one - United Nations of Earth, for example, have 15 such lists for 15 various major human ethnicities. This is why each of them has weight - if you create empire with few different lists of names, weight decides about the frequency of that group's characters appearing as recruitable leaders compared to others. That frequency is calculated as follows:
+
+Weight / Total weight of all character namelists within the empire
+So for example if your empire has character namelist of three nationalities, Swedish, Danish and Finnish, and their weights are appropriately 15-10-5, then chance of leader with Finnish name being generated is 5/(15+10+5) = 5/30 = 1/6, so on average one of six leaders generated within your empire will have a Finnish name. Try to always add some regnal names - if an empire has no regnal names and happens to be a monarchy, its monarch have no names at all (they are blank). Adding some regnal names may be necessary even if said empire is not a monarchic state, because if a rebellion happens and part of it secedes and adopts monarchic government, then its monarch will not have any names too (namelists of an empire are shared by any successor states born from it). WARNING - if you want to create namelist of some language with "unorthodox names", for example Korean in which first names written in Latin contain dash, do not put them in quotation marks like starship/planet names.
+
+first_names_male = {
+                      Min-jun Seo-jun Ha-joon Do-yun Joo-won Ye-jun Joon-woo Ji-ho Ji-hu Jun-seo
+                      Young-ho Il-sung Kyung-soo Young-chul Sung-ki Jong-yul Sang-chul Young-hwan
+                      Byung-chul Sung-ho Sung-soo Jin-ho Jung-ho Sang-hoon Sung-min Sung-min
+}
+^this way they will work.
+
+Other nuances	Edit
+Unique diplomatic responses	Edit
+If you want for your Galactic Empire to contain unique diplomatic text while played by AI ("Welcome. I am Darth Vader and I will show you the power of the Force."), probably the simplest way to implement that is indirect one.
+
+Go to Stellaris->localisation->dip_messages_l_english.yml, and in this file scroll down a bit - you'll see the base game contains diplomatic responses unique for particular AI personality types. As this guide shown few steps before, adding custom AI personalities for individual empires is very easy - you just need to make one for your empire, then you can give it unique diplomatic text.
+
+To sum up, all you need to do is 1) Make whatever unique AI personality applying just for that one empire, in 00_personalities.txt 2) Write custom diplomatic text, code it (for example GE_FRIENDLY_GREETING_03) and put in mod's localisation file 3) Go to Stellaris->diplo_phrases->00_diplo_phrases.txt, here you can see the way diplomatic phrases (including unique personality phrases) appear in game and do the same for your custom empire. The end result in 00_diplo_phrases.txt would be something like that:
+
+GALACTIC_EMPIRE_FRIENDLY_GREETING_03
+trigger = {
+ has_ai_personality = darth_vader
+       [rest of the code]
+Unique ruler titles	Edit
+At the moment ruler titles are tied to government forms, impossible to set for individual empires directly. Thus the only way to add ruler titles unique for the custom empire is to give it unique government form. Another solution if you only care about that one empire is to simply change the default ruler title in 00_governments.txt, so rulers of all empires of that government type will have changed title - after all in game you only ever see title of your own ruler, so if you only play that custom empire when the mod is activated, you won't be bothered by the fact other empires also have supposedly unique title.
+
+This information is not true, you can actually do it with
+
+ruler_title="Baron"
+
+        heir_title="Sir"
+
+        ruler_title_female="Baroness"
+
+        heir_title_female="Lady"
+
+under the ruler section of the country
+
+Restricting human empires to particular skin color or gender	Edit
+If you want to make custom human empire with or without particular skin colors or gender, doing it is fairly easy. Go to Stellaris->gfx->portraits->portraits->00_portraits.txt and here find the line portrait groups->human. Here you can see human species and code which makes their pops have one of 10 portraits (5 skin colors, 2 genders). Let's say for example you wanna create Asian faction with only Asian-looking pops. In such case you need to copy code used for humans in this file, rename "human" to "human_asian" or whatever (remember to put the same codename in the appropriate place in prescripted_countries.txt!), and then remove from that simple code portraits other than human_male_02 and human_female_02. As a result, all pops and all leaders of that empire ever generated over the course of game will be only of "asian" variation
+
+References	Edit
+
+
+Modding
+Empire	Empire • Ethics • Governments • Civics • Origins • Mandates • Agendas • Traditions • Ascension perks • Edicts • Policies • Relics • Technologies • Custom empires
+Pops	Jobs • Factions
+Leaders	Leaders • Leader traits
+Species	Species • Species traits
+Planets	Planets • Planetary feature • Orbital deposit • Buildings • Districts • Planetary decisions
+Systems	Systems • Starbases • Megastructures • Bypasses • Map
+Fleets	Fleets • Ships • Components
+Land Warfare	Armies • Bombardment stance
+Diplomacy	Diplomacy • Federations • Galactic community • Opinion modifiers • Casus Belli • War goals
+Events	Events • Anomalies • Special projects • Archaeological sites
+Gameplay	Gameplay • Defines • Resources • Economy • Game start
+Dynamic modding	Dynamic modding • Effects • Conditions • Scopes • Modifiers • Variables • AI
+Media/localisation	Maya exporter • Graphics • Portraits • Flags • Event pictures • Interface • Icons • Music • Localisation
+Other	Console commands • Save-game editing • Steam Workshop • Modding tutorial
+Last edited on 6 April 2023, at 13:41
+Stellaris Wiki
+Content is available under Attribution-ShareAlike 3.0 unless otherwise noted.
+Desktop
+
+GAMES
+Discover
+Our Brands
+Browse
+Play on Paradox technology
+COMMUNITY
+Paradox Forums
+Paradox Wikis
+Support
+ABOUT
+News
+About us
+Careers
+Join our playtests
+Media contact
+SOCIAL MEDIA
+Terms & Policies
+Legal Information
+EU Online Dispute Resolution
+Frequently Asked Questions
+Paradox Interactive corporate website
